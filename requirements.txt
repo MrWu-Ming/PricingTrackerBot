@@ -1,0 +1,8 @@
+Flask
+Gunicorn
+requests
+line-bot-sdk
+pandas
+apscheduler
+firebase-admin
+google-cloud-firestore
