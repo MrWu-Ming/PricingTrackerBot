@@ -94,7 +94,7 @@ def message_text(event):
                 template=ButtonsTemplate(
                     title = '測試1',
                     thumbnail_image_url='https://down-tw.img.susercontent.com/file/sg-11134201-7r9be-ln8dbrswolmz3b',
-                    text='請選擇操作'
+                    text='請選擇操作',
                     actions = [
                         MessageAction(label='設定目標價格', text='設定您要的目標價')
                     ]
