@@ -42,6 +42,8 @@ from linebot.v3.messaging import (
 )
 
 from linebot.models import (
+    TemplateSendMessage,
+    ConfirmTemplate,
     UnfollowEvent,
     MessageAction,
     TemplateSendMessage,
