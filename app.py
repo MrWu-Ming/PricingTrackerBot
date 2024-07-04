@@ -37,7 +37,6 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     URIAction,
     PostbackAction,
-    TemplateMessage,
     MessageAction,
     TextMessage
 )
@@ -93,23 +92,27 @@ def message_text(event):
         profile = line_bot_api.get_profile(user_id)
         name = profile.display_name
         if 'https://shopee.tw/' in mess:
-            buttons_template = ButtonsTemplate(
-                title='My buttons sample',
-                text='Hello, my buttons',
+            template = ConfirmTemplate(
+                text='你好嗎？',
                 actions=[
-                    URIAction(label='Go to line.me', uri='https://line.me'),
-                    PostbackAction(label='ping', data='ping'),
-                    PostbackAction(label='ping with text', data='ping', text='ping'),
-                    MessageAction(label='Translate Rice', text='米')
-                ])
-            message = TemplateMessage(
-                alt_text='Buttons alt text',
-                template=buttons_template
+                    MessageAction(
+                        label='好喔',
+                        text='好喔'
+                    ),
+                    MessageAction(
+                        label='好喔',
+                        text='不好喔'
+                    )
+                ]
+            )
+            message = TemplateSendMessage(
+                alt_text='ConfirmTemplate',
+                template=template
             )
         else:
             message = TextMessage(text=f"{name} 您好\n{mess}")
 
-        line_bot_api.reply_message_with_http_info(ReplyMessageRequest(
+        line_bot_api.reply_message(ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[message]
             )
