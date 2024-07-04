@@ -89,16 +89,18 @@ def message_text(event):
         profile = line_bot_api.get_profile(user_id)
         name = profile.display_name
         if 'https://shopee.tw/' in mess:
-            message = TemplateSendMessage(
-                alt_text='Buttons Template',
-                template=ButtonsTemplate(
-                    title = '測試1',
-                    thumbnail_image_url='https://down-tw.img.susercontent.com/file/sg-11134201-7r9be-ln8dbrswolmz3b',
-                    text='請選擇操作',
-                    actions = [
-                        MessageAction(label='設定目標價格', text='設定您要的目標價')
-                    ]
-                )
+            buttons_template = ButtonsTemplate(
+                title='My buttons sample',
+                text='Hello, my buttons',
+                actions=[
+                    URIAction(label='Go to line.me', uri='https://line.me'),
+                    PostbackAction(label='ping', data='ping'),
+                    PostbackAction(label='ping with text', data='ping', text='ping'),
+                    MessageAction(label='Translate Rice', text='米')
+                ])
+            message = TemplateMessage(
+                alt_text='Buttons alt text',
+                template=buttons_template
             )
         else:
             message = TextMessage(text=f"{name} 您好\n{mess}")
