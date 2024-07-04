@@ -109,7 +109,7 @@ def message_text(event):
         else:
             message = TextMessage(text=f"{name} 您好\n{mess}")
 
-        line_bot_api.reply_message(ReplyMessageRequest(
+        line_bot_api.reply_message_with_http_info(ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[message]
             )
