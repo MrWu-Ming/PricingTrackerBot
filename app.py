@@ -89,7 +89,7 @@ def message_text(event):
         profile = line_bot_api.get_profile(user_id)
         name = profile.display_name
         if 'https://shopee.tw/' in mess:
-            request = TemplateSendMessage(
+            message = TemplateSendMessage(
                 alt_text='Buttons Template',
                 template=ButtonsTemplate(
                     title = '測試1',
@@ -101,11 +101,13 @@ def message_text(event):
                 )
             )
         else:
-            request = ReplyMessageRequest(
+            message = TextMessage(text=f"{name} 您好\n{mess}")
+
+        line_bot_api.reply_message(ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=f"{name} 您好\n{mess}")]
+                messages=[message]
             )
-        line_bot_api.reply_message_with_http_info(request)
+        )
 
 @app.route("/test_push_message", methods=['GET'])
 def test_push_message():
