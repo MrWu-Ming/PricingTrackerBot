@@ -38,7 +38,13 @@ from linebot.v3.messaging import (
     TextMessage
 )
 
-from linebot.models import UnfollowEvent
+from linebot.models import (
+    UnfollowEvent,
+    MessageAction,
+    TemplateSendMessage,
+    CarouselTemplate,
+    CarouselColumn
+)
 
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -78,18 +84,34 @@ def callback():
 @handler.add(MessageEvent, message=TextMessageContent)
 def message_text(event):
     user_id = event.source.user_id
-    mess = event.message.text.strip().upper()
+    mess = event.message.text
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
         profile = line_bot_api.get_profile(user_id)
         name = profile.display_name
-        # print(f"Line User_id: {user_id}, Display name: {profile.display_name}")
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
+        if 'https://shopee.tw/' in mess:
+            request = TemplateSendMessage(
+                alt_text='CarouselTemplate',
+                template=CarouselTemplate(
+                    columns = [
+                        CarouselColumn(
+                            thumbnail_image_url=mess,
+                            actions=[
+                                MessageAction(
+                                    label='追蹤價格',
+                                    text='請輸入您期望的追蹤價格'
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        else:
+            request = ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[TextMessage(text=f"{name} 您好\n{mess}")]
             )
-        )
+        line_bot_api.reply_message_with_http_info(request)
 
 @app.route("/test_push_message", methods=['GET'])
 def test_push_message():
