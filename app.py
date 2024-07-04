@@ -42,8 +42,7 @@ from linebot.models import (
     UnfollowEvent,
     MessageAction,
     TemplateSendMessage,
-    CarouselTemplate,
-    CarouselColumn
+    ButtonsTemplate
 )
 
 from apscheduler.triggers.cron import CronTrigger
@@ -91,18 +90,13 @@ def message_text(event):
         name = profile.display_name
         if 'https://shopee.tw/' in mess:
             request = TemplateSendMessage(
-                alt_text='CarouselTemplate',
-                template=CarouselTemplate(
-                    columns = [
-                        CarouselColumn(
-                            thumbnail_image_url=mess,
-                            actions=[
-                                MessageAction(
-                                    label='追蹤價格',
-                                    text='請輸入您期望的追蹤價格'
-                                )
-                            ]
-                        )
+                alt_text='Buttons Template',
+                template=ButtonsTemplate(
+                    title = '測試1',
+                    thumbnail_image_url='https://down-tw.img.susercontent.com/file/sg-11134201-7r9be-ln8dbrswolmz3b',
+                    text='請選擇操作'
+                    actions = [
+                        MessageAction(label='設定目標價格', text='設定您要的目標價')
                     ]
                 )
             )
