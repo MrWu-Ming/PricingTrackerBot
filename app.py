@@ -37,6 +37,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     URIAction,
     PostbackAction,
+    TemplateMessage,
     MessageAction,
     TextMessage
 )
